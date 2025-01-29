@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
+using WebApp_UnderTheHood.Models.AuthModels;
 
 namespace WebApp_UnderTheHood.Pages.Account
 {
@@ -25,12 +25,22 @@ namespace WebApp_UnderTheHood.Pages.Account
                 // Creating security context
                 var claims = new List<Claim> {
                     new Claim(ClaimTypes.Name, "admin"),
-                    new Claim(ClaimTypes.Email, "admin@website.com")
+                    new Claim(ClaimTypes.Email, "admin@mywebsite.com"),
+                    new Claim("Department", "HR"),
+                    new Claim("Admin", "true"), // value doesn't matter
+                    new Claim("Manager", "true"), // value doesn't matter
+                    new Claim("EmploymentDate", "2024-07-01")
                 };
                 var identity = new ClaimsIdentity(claims, "MyCookieAuth");
+
                 var claimsPrincipal = new ClaimsPrincipal(identity);
 
-                await HttpContext.SignInAsync("MyCookieAuth", claimsPrincipal);
+                var authProperties = new AuthenticationProperties
+                {
+                    IsPersistent = Credential.RememberMe
+                };
+
+                await HttpContext.SignInAsync("MyCookieAuth", claimsPrincipal, authProperties);
                 // No sign-in authentication handlers are registered (IAuthenticationService).
                 // Did you forget to call AddAuthentication().AddCookie("MyCookieAuth",...)?
 
@@ -38,19 +48,5 @@ namespace WebApp_UnderTheHood.Pages.Account
             }
             return Page();
         }
-    }
-
-    public class Credential
-    {
-        [Required]
-        [Display(Name = "User Name")]
-        public string UserName { get; set; } = string.Empty;
-
-        [Required]
-        [DataType(DataType.Password)]
-        public string Password { get; set; } = string.Empty;
-
-        [Display(Name = "Remember Me")]
-        public bool RememberMe { get; set; }
     }
 }
