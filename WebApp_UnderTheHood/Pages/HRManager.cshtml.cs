@@ -20,37 +20,32 @@ namespace WebApp_UnderTheHood.Pages
             _httpClientFactory = httpClientFactory;
         }
 
-        public void OnGet()
+        public async Task OnGetAsync()
         {
+            JwtToken token;
 
+            var strTokenObj = HttpContext.Session.GetString("access_token");
+
+            if (string.IsNullOrEmpty(strTokenObj))
+            {
+                token = await Authenticate();
+            }
+            else
+            {
+                token = JsonConvert.DeserializeObject<JwtToken>(strTokenObj) ?? new JwtToken();
+            }
+
+            if (token == null || string.IsNullOrWhiteSpace(token.AccessToken) || token.ExpiresAt <= DateTime.UtcNow)
+            {
+                token = await Authenticate();
+            }
+
+            var httpClient = _httpClientFactory.CreateClient("OurWebAPI");
+
+            httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token?.AccessToken ?? string.Empty);
+
+            weatherForecastsItems = await httpClient.GetFromJsonAsync<List<WeatherForecast>>("WeatherForecast") ?? new(); // controller name
         }
-
-        //public async Task OnGetAsync()
-        //{
-        //    JwtToken token;
-
-        //    var strTokenObj = HttpContext.Session.GetString("access_token");
-
-        //    if (string.IsNullOrEmpty(strTokenObj))
-        //    {
-        //        token = await Authenticate();
-        //    }
-        //    else
-        //    {
-        //        token = JsonConvert.DeserializeObject<JwtToken>(strTokenObj) ?? new JwtToken();
-        //    }
-
-        //    if (token == null || string.IsNullOrWhiteSpace(token.AccessToken) || token.ExpiresAt <= DateTime.UtcNow)
-        //    {
-        //        token = await Authenticate();
-        //    }
-
-        //    var httpClient = _httpClientFactory.CreateClient("OurWebAPI");
-
-        //    httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token?.AccessToken ?? string.Empty);
-
-        //    weatherForecastsItems = await httpClient.GetFromJsonAsync<List<WeatherForecast>>("WeatherForecast") ?? new(); // controller name
-        //}
 
         private async Task<JwtToken> Authenticate()
         {

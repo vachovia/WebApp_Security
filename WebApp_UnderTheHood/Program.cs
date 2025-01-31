@@ -6,6 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
+// Single sign-on cannot share cookies between different domains.
+// If you want to have single sign-on then we need to use token based authentication
 builder.Services.AddAuthentication("MyCookieAuth").AddCookie("MyCookieAuth", options =>
 {
     options.Cookie.Name = "MyCookieAuth";
@@ -31,9 +33,10 @@ builder.Services.AddSession(options =>
     options.IdleTimeout = TimeSpan.FromSeconds(20);
 });
 
+// Added package Microsoft.AspNetCore.Http.Extension
 builder.Services.AddHttpClient("OurWebAPI", client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7111/");
+    client.BaseAddress = new Uri("https://localhost:7111/"); // added slash / at the end
 });
 
 var app = builder.Build();
