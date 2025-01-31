@@ -21,7 +21,7 @@ namespace WebApp_UnderTheHood.Pages
 }
 
 
-// As soon as we use [Authorize] attribute on start
+// As soon as we use [Authorize] attribute on class declaration
 // app navigates to Login page by default /Account/Login
 // if we change folder Name Account to any other it will not navigate
 // otherwise we need to specify in Program.cs in AddCookie like
