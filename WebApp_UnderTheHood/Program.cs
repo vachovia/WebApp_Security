@@ -25,7 +25,7 @@ builder.Services.AddAuthorization(options =>
 
 builder.Services.AddSingleton<IAuthorizationHandler, HRManagerProbationRequirementHandler>();
 
-// to store token in session
+// to store Jwt token in session
 builder.Services.AddSession(options =>
 {
     options.Cookie.HttpOnly = true; // cookie accessable only from http not by any javascript
@@ -56,7 +56,7 @@ app.UseRouting();
 app.UseAuthentication(); // auth middleware
 app.UseAuthorization(); // auz middleware for [Authorize]
 
-app.UseSession();
+app.UseSession(); // session middleware
 
 app.MapRazorPages();
 

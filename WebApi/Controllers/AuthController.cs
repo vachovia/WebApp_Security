@@ -50,6 +50,8 @@ namespace WebAPI.Controllers
 
         private string CreateToken(IEnumerable<Claim> claims, DateTime expireAt)
         {
+            // Added Microsoft.AspNetCore.Authentication.JwtBearer and System.IdentityModel.Tokens.Jwt
+
             var secretKey = Encoding.ASCII.GetBytes(_configuration.GetValue<string>("SecretKey")??"");
             var signinCreds = new SigningCredentials(new SymmetricSecurityKey(secretKey), SecurityAlgorithms.HmacSha256Signature);
             

@@ -13,6 +13,7 @@ builder.Services.AddSwaggerGen();
 var secretKey = builder.Configuration.GetValue<string>("SecretKey");
 var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secretKey ?? string.Empty));
 
+// Can be simply builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => { ... });
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -23,10 +24,10 @@ builder.Services.AddAuthentication(options =>
     options.TokenValidationParameters = new TokenValidationParameters()
     {
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey = symmetricSecurityKey,
-        ValidateLifetime = true,
+        IssuerSigningKey = symmetricSecurityKey,        
         ValidateAudience = false,
         ValidateIssuer = false,
+        ValidateLifetime = true,
         ClockSkew = TimeSpan.Zero
     };
 });
