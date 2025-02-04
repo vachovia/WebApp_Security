@@ -27,6 +27,7 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = symmetricSecurityKey,        
         ValidateAudience = false,
         ValidateIssuer = false,
+
         ValidateLifetime = true,
         ClockSkew = TimeSpan.Zero
     };
@@ -35,7 +36,8 @@ builder.Services.AddAuthentication(options =>
 // If [Authorize] then don't need below middleware otherwise with policy add
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("AdminOnly", policy => policy.RequireClaim("Admin")); // this "Admin" claim is in AuthController Authenticate action
+    // this "Admin" claim is in AuthController Authenticate action
+    options.AddPolicy("AdminOnly", policy => policy.RequireClaim("Admin"));
 });
 
 var app = builder.Build();
@@ -49,7 +51,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthentication(); // added to handle [Auithori
+// added to handle [Auithorization]
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
