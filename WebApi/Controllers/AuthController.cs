@@ -34,7 +34,7 @@ namespace WebAPI.Controllers
                     new Claim("EmploymentDate", "2024-07-01")
                 };
 
-                var expiresAt = DateTime.UtcNow.AddMinutes(10);
+                var expiresAt = DateTime.UtcNow.AddMinutes(20);
                 var accessToken = CreateToken(claims, expiresAt);
 
                 return Ok(new {

@@ -13,7 +13,7 @@ builder.Services.AddAuthentication("MyCookieAuth").AddCookie("MyCookieAuth", opt
     options.Cookie.Name = "MyCookieAuth";
     options.LoginPath = "/Account/Login"; // this is not need to be specified it is default path
     options.AccessDeniedPath = "/Account/AccessDenied"; // this is not need to be specified it is default path
-    options.ExpireTimeSpan = TimeSpan.FromSeconds(30); // cookie expires and we kicked out or browser is closed if we didn't specify persistent cookie
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(30); // cookie expires and we kicked out or browser is closed if we didn't specify persistent cookie
 });
 
 builder.Services.AddAuthorization(options =>
@@ -30,7 +30,7 @@ builder.Services.AddSession(options =>
 {
     options.Cookie.HttpOnly = true; // cookie accessable only from http not by any javascript
     options.Cookie.IsEssential = true;
-    options.IdleTimeout = TimeSpan.FromSeconds(20);
+    options.IdleTimeout = TimeSpan.FromMinutes(20);
 });
 
 // Added package Microsoft.AspNetCore.Http.Extension
