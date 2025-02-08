@@ -7,7 +7,7 @@ using WebApp.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// CSS isolation is not working with RazorRuntimeCompilation.
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -26,13 +26,13 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
     options.User.RequireUniqueEmail = true;
     options.SignIn.RequireConfirmedEmail = true;
 }).AddEntityFrameworkStores<AppDbContext>() // AppDbContext is InMemory represetation of DB
-.AddDefaultTokenProviders(); // this also provides Token for 2FA
+.AddDefaultTokenProviders(); // this provides Tokens for Email and2FA
 
-builder.Services.ConfigureApplicationCookie(options =>
-{
-    options.LoginPath = "/Account/Login";
-    options.AccessDeniedPath = "/Account/AccessDenied";
-});
+//builder.Services.ConfigureApplicationCookie(options =>
+//{
+//    options.LoginPath = "/Account/Login";
+//    options.AccessDeniedPath = "/Account/AccessDenied";
+//});
 
 builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("SMTP"));
 builder.Services.AddSingleton<IEmailService, EmailService>();

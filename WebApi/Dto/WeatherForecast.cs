@@ -1,4 +1,4 @@
-namespace WebApi
+namespace WebApi.Dto
 {
     public class WeatherForecast
     {
