@@ -6,5 +6,39 @@
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <p>Please click to <a href="/Account/Register">Register</a>.</p>
+    <div>
+        <button id="bootBoxDlg" type="button" class="btn btn-primary">Bootbox</button>
+    </div>
 </div>
+
+@section Scripts
+{
+    <script>
+        $('#bootBoxDlg').on('click', function (event) {
+            const timeout = 5000;
+            const msg = 'Bootbox.js: Dialog Example';
+            const msgHtml = `<p class="text-center mb-0 p-4">${msg}</p>`;
+            const dialog = bootbox.dialog({
+                title: 'My Prompt',
+                message: msgHtml,
+                centerVertical: true,
+                closeButton: true,
+                backdrop: true, // 'static'
+                buttons:[
+                    {
+                        label : 'OK',
+                        className: "btn-primary",
+                        callback : () => {}
+                    },
+                    {
+                        label : 'Cancel',
+                        className: "btn-secondary",
+                        callback : () => {}
+                    }
+                ]
+            });
+            setTimeout(() => { dialog.modal('hide'); }, timeout);
+        });
+    </script>
+}
