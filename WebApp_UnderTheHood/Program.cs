@@ -25,7 +25,7 @@ builder.Services.AddAuthorization(options =>
 
 builder.Services.AddSingleton<IAuthorizationHandler, HRManagerProbationRequirementHandler>();
 
-// to store Jwt token in session
+// **********to store Jwt token in session************//
 builder.Services.AddSession(options =>
 {
     options.Cookie.HttpOnly = true; // cookie accessable only from http not by any javascript
