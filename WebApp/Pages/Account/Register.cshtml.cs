@@ -28,7 +28,7 @@ namespace WebApp.Pages.Account
         {
             if (!ModelState.IsValid) return Page();
 
-            // Validate Email Address but this is optional
+            // Validate Email Address => this is optional
             // because we specified it in options.User.RequireUniqueEmail = true;
 
             // Create User
