@@ -28,14 +28,14 @@ namespace WebApp.Pages.Account
                 return RedirectToPage("/Index");
             }
 
-            //if (result.RequiresTwoFactor)
-            //{
-            //    return RedirectToPage("/Account/LoginTwoFactor", new
-            //    {
-            //        Email = Credential.Email,
-            //        RememberMe = Credential.RememberMe
-            //    });
-            //}
+            if (result.RequiresTwoFactor)
+            {
+                return RedirectToPage("/Account/LoginTwoFactor", new
+                {
+                    Email = LoginViewModel.Email,
+                    RememberMe = LoginViewModel.RememberMe
+                });
+            }
 
             if (result.IsLockedOut)
             {
