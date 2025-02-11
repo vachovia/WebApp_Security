@@ -1,14 +1,15 @@
-﻿using System.Net.Mail;
-using System.Net;
-using Microsoft.Extensions.Options;
+﻿using System.Net;
+using System.Net.Mail;
 using WebApp.Settings;
 using WebApp.Services.Interfaces;
+using Microsoft.Extensions.Options;
 
 namespace WebApp.Services
 {
     public class EmailService : IEmailService
     {
         IOptions<SmtpSettings> _smtpSettings { get; set; }
+
         public EmailService(IOptions<SmtpSettings> smtpSettings)
         {
             _smtpSettings = smtpSettings;

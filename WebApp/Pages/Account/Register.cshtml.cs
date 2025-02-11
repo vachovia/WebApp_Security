@@ -45,6 +45,7 @@ namespace WebApp.Pages.Account
             var claimDepartment = new Claim("Department", RegisterViewModel.Department);
             var claimPosition = new Claim("Position", RegisterViewModel.Position);
 
+            // Generates user Id needed in GenerateEmailConfirmationTokenAsync
             var result = await _UserManager.CreateAsync(user, RegisterViewModel.Password);
 
             if (result.Succeeded)
@@ -55,13 +56,14 @@ namespace WebApp.Pages.Account
                 /* adjust Program.cs and add AddDefaultTokenProviders() to have token */
                 var confirmationToken = await _UserManager.GenerateEmailConfirmationTokenAsync(user);
 
+                // Dry run: Use this logic to Confirm Email without sending email
+                // return Redirect(Url.PageLink(pageName: "/Account/ConfirmEmail", values: new { userId = user.Id, token = confirmationToken }) ?? "");
+
                 var confirmationLink = Url.PageLink(pageName: "/Account/ConfirmEmail", values: new { userId = user.Id, token = confirmationToken });
 
                 await _emailService.SendAsync(user.Email, "Please confirm your email", $"Please click on this link to confirm your email address: {confirmationLink}");
 
                 return RedirectToPage("/Account/Login");
-
-                // return Redirect(Url.PageLink(pageName: "/Account/ConfirmEmail", values: new { userId = user.Id, token = confirmationToken }) ?? "");
             }
                 
             foreach(var error in result.Errors)

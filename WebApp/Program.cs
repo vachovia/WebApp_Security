@@ -28,7 +28,7 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
     options.SignIn.RequireConfirmedEmail = true;
 
 }).AddEntityFrameworkStores<AppDbContext>() // AppDbContext is InMemory represetation of DB
-.AddDefaultTokenProviders(); // this provides Tokens for Email and2FA
+.AddDefaultTokenProviders(); // this provides Tokens for Email Confirmation and 2FA
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
