@@ -55,7 +55,7 @@ var app = builder.Build();
 
 app.UseCors(options =>
 {
-    options.AllowAnyMethod().AllowAnyHeader().AllowCredentials().WithExposedHeaders("*"); // .WithOrigins("*")
+    options.AllowAnyMethod().AllowAnyHeader().AllowCredentials().WithExposedHeaders("*"); // .WithOrigins("*").
 });
 
 // Configure the HTTP request pipeline.

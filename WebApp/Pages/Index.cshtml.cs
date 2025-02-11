@@ -4,7 +4,7 @@ using WebApp.Settings;
 
 namespace WebApp.Pages
 {
-    [Authorize(Policy = SD.AdminPolicy)]
+    [Authorize]
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
