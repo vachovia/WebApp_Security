@@ -42,16 +42,18 @@ namespace WebApp.Pages.Account
                 Position= RegisterViewModel.Position
             };
 
-            var claimDepartment = new Claim("Department", RegisterViewModel.Department);
-            var claimPosition = new Claim("Position", RegisterViewModel.Position);
+            var userClaims = new List<Claim>()
+            {
+                new Claim("Department", RegisterViewModel.Department),
+                new Claim("Position", RegisterViewModel.Position)
+            };
 
             // Generates user Id needed in GenerateEmailConfirmationTokenAsync
             var result = await _UserManager.CreateAsync(user, RegisterViewModel.Password);
 
             if (result.Succeeded)
             {
-                await _UserManager.AddClaimAsync(user, claimDepartment);
-                await _UserManager.AddClaimAsync(user, claimPosition);
+                await _UserManager.AddClaimsAsync(user, userClaims);
 
                 /* adjust Program.cs and add AddDefaultTokenProviders() to have token */
                 var confirmationToken = await _UserManager.GenerateEmailConfirmationTokenAsync(user);
