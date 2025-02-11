@@ -4,6 +4,7 @@ using WebApp.Data;
 using WebApp.Services;
 using WebApp.Services.Interfaces;
 using WebApp.Settings;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,8 +39,24 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("SMTP"));
 builder.Services.AddSingleton<IEmailService, EmailService>();
+builder.Services.AddScoped<IContextSeedService, ContextSeedService>();
+
+builder.Services.AddAuthorization(opt => {
+    opt.AddPolicy(SD.AdminPolicy, policy => policy.RequireRole(SD.AdminRole));
+    opt.AddPolicy(SD.ManagerPolicy, policy => policy.RequireRole(SD.ManagerRole));
+    opt.AddPolicy(SD.AdminOrManagerPolicy, policy => policy.RequireRole(SD.AdminRole, SD.ManagerRole));
+    opt.AddPolicy(SD.AdminAndManagerPolicy, policy => policy.RequireRole(SD.AdminRole).RequireRole(SD.ManagerRole));
+    opt.AddPolicy(SD.SuperAdminPolicy, policy => policy.RequireAssertion(context => SD.SuperAdminPolicyCheck(context)));
+});
+
+builder.Services.AddCors();
 
 var app = builder.Build();
+
+app.UseCors(options =>
+{
+    options.AllowAnyMethod().AllowAnyHeader().AllowCredentials().WithExposedHeaders("*"); // .WithOrigins("*")
+});
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -58,7 +75,24 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 
+#region Context Seed
+using var scope = app.Services.CreateScope();
+try
+{
+    // NuGet Package Manager Console -> Drop-Database
+    // Needed: builder.Services.AddScoped<IContextSeedService, ContextSeedService>();
+    var contextSeedService = scope.ServiceProvider.GetService<IContextSeedService>();
+    await contextSeedService!.InitializeContextAsync();
+}
+catch (Exception ex)
+{
+    var logger = scope.ServiceProvider.GetService<ILogger<Program>>();
+    logger!.LogError(ex.Message, "Failed to initialize and seed the database.");
+}
+#endregion
+
 app.Run();
 
+// Drop-Database
+// Update-Database
 // Add-Migration AddingUserToDatabase -o Data/Migrations
-// Update-Database // Drop-Database

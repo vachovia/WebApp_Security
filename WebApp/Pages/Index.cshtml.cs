@@ -1,9 +1,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using WebApp.Settings;
 
 namespace WebApp.Pages
 {
-    [Authorize]
+    [Authorize(Policy = SD.AdminPolicy)]
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;

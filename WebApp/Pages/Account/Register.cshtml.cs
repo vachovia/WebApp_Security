@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Claims;
 using WebApp.Data;
 using WebApp.Services.Interfaces;
+using WebApp.Settings;
 using WebApp.ViewModels;
 
 namespace WebApp.Pages.Account
@@ -44,8 +45,8 @@ namespace WebApp.Pages.Account
 
             var userClaims = new List<Claim>()
             {
-                new Claim("Department", RegisterViewModel.Department),
-                new Claim("Position", RegisterViewModel.Position)
+                new Claim(SD.Position, RegisterViewModel.Position),
+                new Claim(SD.Department, RegisterViewModel.Department)
             };
 
             // Generates user Id needed in GenerateEmailConfirmationTokenAsync
@@ -54,6 +55,8 @@ namespace WebApp.Pages.Account
             if (result.Succeeded)
             {
                 await _UserManager.AddClaimsAsync(user, userClaims);
+
+                await _UserManager.AddToRoleAsync(user, RegisterViewModel.Role);
 
                 /* adjust Program.cs and add AddDefaultTokenProviders() to have token */
                 var confirmationToken = await _UserManager.GenerateEmailConfirmationTokenAsync(user);

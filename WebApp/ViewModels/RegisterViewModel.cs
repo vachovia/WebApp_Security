@@ -31,5 +31,9 @@ namespace WebApp.ViewModels
         [Required]
         [Display(Name = "Position")]
         public string Position { get; set; } = string.Empty;
+
+        [Required]
+        [Display(Name = "Role")]
+        public string Role { get; set; } = string.Empty;
     }
 }
