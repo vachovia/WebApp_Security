@@ -56,7 +56,7 @@ namespace WebApp.Pages.Account
             {
                 await _UserManager.AddClaimsAsync(user, userClaims);
 
-                await _UserManager.AddToRoleAsync(user, RegisterViewModel.Role);
+                await _UserManager.AddToRoleAsync(user, SD.EmployeeRole);
 
                 /* adjust Program.cs and add AddDefaultTokenProviders() to have token */
                 var confirmationToken = await _UserManager.GenerateEmailConfirmationTokenAsync(user);

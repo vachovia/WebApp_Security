@@ -1,0 +1,32 @@
+﻿@page
+@model WebApp.Pages.Account.UserProfileListModel
+@{
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Department</th>
+            <th>Position</th>
+            <th>Roles</th>
+            <th style="text-align:left"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var profile in @Model.UserProfileList)
+        {
+            <tr>
+                <td>@profile.FirstName</td>
+                <td>@profile.LastName</td>
+                <td>@profile.Department</td>
+                <td>@profile.Position</td>
+                <td>@profile.Roles</td>
+                <td>
+                    <a href="/Account/UserProfile/@profile.Id" class="btn btn-primary">Edit</a>
+                </td>                
+            </tr>
+        }
+    </tbody>
+</table>

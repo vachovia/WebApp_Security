@@ -2,8 +2,10 @@
 
 namespace WebApp.ViewModels
 {
-    public class RegisterViewModel
+    public class UserProfileViewModel
     {
+        public string? Id { get; set; }
+
         [Required]
         [Display(Name = "First Name")]
         [StringLength(15, MinimumLength = 3, ErrorMessage = "First name must be at least {2}, and maximum {1} characters")]
@@ -20,18 +22,15 @@ namespace WebApp.ViewModels
         public string Email { get; set; } = string.Empty;
 
         [Required]
-        [Display(Name = "Password")]
-        [DataType(dataType: DataType.Password)]
-        public string Password { get; set; } = string.Empty;
-
-        [Required]
         [Display(Name = "Department")]
         public string Department { get; set; } = string.Empty;
 
         [Required]
         [Display(Name = "Position")]
         public string Position { get; set; } = string.Empty;
-        
-        public string Role { get; set; } = string.Empty;
+
+        [Required]
+        [Display(Name = "Roles")]
+        public string Roles { get; set; } = string.Empty;
     }
 }

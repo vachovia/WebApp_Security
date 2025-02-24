@@ -1,10 +1,9 @@
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using WebApp.Data;
 using WebApp.Services;
-using WebApp.Services.Interfaces;
 using WebApp.Settings;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using WebApp.Services.Interfaces;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 

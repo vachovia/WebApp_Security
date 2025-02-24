@@ -3,17 +3,27 @@
 @if (User != null && User.Identity != null && User.Identity.IsAuthenticated)
 {
     <div class="d-flex align-items-center justify-content-center">
+        <div>Welcome @User.Identity.Name (@User.Claims.First(p => p.Type == "Position"))</div>
+        <a class="btn btn-link text-decoration-none"  onclick="getMyProfile(event)">Profile</a>
+        @if(User.IsInRole(SD.AdminRole)){
+            <a class="btn btn-link text-decoration-none" asp-page="/Account/UserProfileList">All Users</a>
+        }
         <form method="post" class="d-flex justify-content-center align-items-center" asp-page="/Account/Logout">
-            <div>Welcome @User.Identity.Name (@User.Claims.First(p => p.Type == "Position"))</div>
             <div><button type="submit" class="m-lg-2 btn btn-link text-decoration-none">Logout</button></div>
         </form>
-        @if (User.IsInRole(SD.AdminRole))
-        {
-            <a class="btn btn-link text-decoration-none" asp-page="/Account/Register">Register</a>
-        }
     </div>    
 }
 else
 {
-    <a class="btn btn-link text-decoration-none" asp-page="/Account/Login">Login</a>
+    <div class="d-flex align-items-center justify-content-center">
+        <a class="btn btn-link text-decoration-none" asp-page="/Account/Login">Login</a>
+        <a class="btn btn-link text-decoration-none" asp-page="/Account/Register">Register</a>
+    </div>    
 }
+
+<script type="text/javascript">
+    function getMyProfile(e){
+        window.location.href = "/Account/UserProfile";
+        // asp-page="/Account/UserProfile"
+    }
+</script>
