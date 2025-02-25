@@ -15,12 +15,12 @@ namespace WebApp.Pages.Account
         public RegisterViewModel RegisterViewModel { get; set; } = new();
 
         private readonly UserManager<AppUser> _UserManager;
-        public IEmailService _emailService { get; set; }
+        public IEmailService _EmailService { get; set; }
 
-        public RegisterModel(UserManager<AppUser> UserManager, IEmailService emailService)
+        public RegisterModel(UserManager<AppUser> UserManager, IEmailService EmailService)
         {
             _UserManager = UserManager;
-            _emailService = emailService;
+            _EmailService = EmailService;
         }
 
         public void OnGet() { }
@@ -40,7 +40,8 @@ namespace WebApp.Pages.Account
                 Email = RegisterViewModel.Email,
                 UserName = RegisterViewModel.Email,
                 Department = RegisterViewModel.Department,
-                Position= RegisterViewModel.Position
+                Position = RegisterViewModel.Position,
+                // TwoFactorEnabled = true // If two Factor enabled then from Login page it will navigate to LoginTwoFactor
             };
 
             var userClaims = new List<Claim>()
@@ -66,7 +67,7 @@ namespace WebApp.Pages.Account
 
                 var confirmationLink = Url.PageLink(pageName: "/Account/ConfirmEmail", values: new { userId = user.Id, token = confirmationToken });
 
-                await _emailService.SendAsync(user.Email, "Please confirm your email", $"Please click on this link to confirm your email address: {confirmationLink}");
+                await _EmailService.SendAsync(user.Email, "Please confirm your email", $"Please click on this link to confirm your email address: {confirmationLink}");
 
                 return RedirectToPage("/Account/Login");
             }
