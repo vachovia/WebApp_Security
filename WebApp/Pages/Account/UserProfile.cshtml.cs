@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -5,10 +6,12 @@ using Microsoft.EntityFrameworkCore;
 using System.Data;
 using System.Security.Claims;
 using WebApp.Data;
+using WebApp.Settings;
 using WebApp.ViewModels;
 
 namespace WebApp.Pages.Account
 {
+    [Authorize]
     public class UserProfileModel : PageModel
     {
         private readonly UserManager<AppUser> _UserManager;

@@ -4,7 +4,7 @@
 {
     <div class="d-flex align-items-center justify-content-center">
         <div>Welcome @User.Identity.Name (@User.Claims.First(p => p.Type == "Position"))</div>
-        <a class="btn btn-link text-decoration-none"  onclick="getMyProfile(event)">Profile</a>
+        <a class="btn btn-link text-decoration-none" onclick="getMyProfile(event)">Profile</a>
         @if(User.IsInRole(SD.AdminRole)){
             <a class="btn btn-link text-decoration-none" asp-page="/Account/UserProfileList">All Users</a>
         }
@@ -23,6 +23,7 @@ else
 
 <script type="text/javascript">
     function getMyProfile(e){
+        console.log(e);
         window.location.href = "/Account/UserProfile";
         // asp-page="/Account/UserProfile"
     }
