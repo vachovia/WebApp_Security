@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using QRCoder;
 using WebApp.Data;
 using WebApp.ViewModels;
 
@@ -39,6 +40,7 @@ namespace WebApp.Pages.Account
                 // This method inserts key into UserTokens table
 
                 SetupMFAViewModel.Key = key ?? string.Empty;
+                SetupMFAViewModel.QRCodeBytes = GenerateQRCodeBytes("WebApp", SetupMFAViewModel.Key, user.Email ?? string.Empty);
             }
         }
 
@@ -69,6 +71,17 @@ namespace WebApp.Pages.Account
             }
 
             return Page();
+        }
+
+        private byte[] GenerateQRCodeBytes(string provider, string key, string userEmail)
+        {
+            var qrCodeGenerator = new QRCodeGenerator();
+
+            var qrCodeData = qrCodeGenerator.CreateQrCode($"otpauth://totp/{provider}:{userEmail}?secret={key}&issuer={provider}",QRCodeGenerator.ECCLevel.Q);
+
+            var qrCode = new PngByteQRCode(qrCodeData);
+
+            return qrCode.GetGraphic(20);
         }
     }
 }

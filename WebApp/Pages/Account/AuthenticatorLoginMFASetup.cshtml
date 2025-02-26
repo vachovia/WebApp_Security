@@ -2,11 +2,25 @@
 @model WebApp.Pages.Account.AuthenticatorLoginMFASetupModel
 @{
 }
-
-<h3>Step: 1</h3>
+@*If we want to use screen mirroring from mobile*@
+@* <h3>Step: 1</h3>
 <p>
     Please enter the Key from your authenticator app:
 </p>
+<p>
+    @Model.SetupMFAViewModel.Key
+</p> *@
+<h3>Step: 1</h3>
+<p>
+    Please scan the QR Code or enter the Key from your authenticator app:
+</p>
+<p>
+    @if (Model.SetupMFAViewModel.QRCodeBytes != null)
+    {
+        <img src="@string.Format("data:image/png;base64,{0}", Convert.ToBase64String(Model.SetupMFAViewModel.QRCodeBytes))" width="300" height="300" />
+    }
+</p>
+<br/>
 <p>
     @Model.SetupMFAViewModel.Key
 </p>
@@ -35,6 +49,7 @@
         <div class="form-group row">
             <div class="col-2">
                 <input type="hidden" asp-for="SetupMFAViewModel.Key" />
+                <input type="hidden" asp-for="SetupMFAViewModel.QRCodeBytes" />
             </div>
             <div class="col-4 text-end">
                 <input type="submit" class="btn btn-primary" value="Verify" />
