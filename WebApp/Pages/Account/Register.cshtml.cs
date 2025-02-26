@@ -41,7 +41,7 @@ namespace WebApp.Pages.Account
                 UserName = RegisterViewModel.Email,
                 Department = RegisterViewModel.Department,
                 Position = RegisterViewModel.Position,
-                TwoFactorEnabled = true // If two Factor enabled then from Login page it will navigate to LoginTwoFactor
+                // TwoFactorEnabled = true // If two Factor enabled then from Login page it will navigate to LoginTwoFactor
             };
 
             var userClaims = new List<Claim>()
