@@ -28,7 +28,7 @@ namespace WebApp.Pages.Account
         public async Task<IActionResult> OnGet(string email, bool rememberMe)
         {
             EmailMFA.SecurityCode = string.Empty;
-            EmailMFA.RememberMe = rememberMe; // taken to use in OnPostAsync
+            EmailMFA.RememberMe = rememberMe; // stored to use in OnPostAsync
 
             var user = await _UserManager.FindByEmailAsync(email);
 

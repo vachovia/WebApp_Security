@@ -69,7 +69,10 @@ namespace WebApp.Pages.Account
 
                 await _EmailService.SendAsync(user.Email, "Please confirm your email", $"Please click on this link to confirm your email address: {confirmationLink}");
 
-                return RedirectToPage("/Account/Login");
+                return RedirectToPage("/Account/Login", new
+                {
+                    regSuccessMessage = "Confirmation email was sent, please confirm your email."
+                });
             }
                 
             foreach(var error in result.Errors)

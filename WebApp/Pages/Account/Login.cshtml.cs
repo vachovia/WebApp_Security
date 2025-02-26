@@ -8,13 +8,24 @@ namespace WebApp.Pages.Account
 {
     public class LoginModel : PageModel
     {
+        private readonly SignInManager<AppUser> _SignInManager;
+
         [BindProperty]
         public LoginViewModel LoginViewModel { get; set; } = new();
-        private readonly SignInManager<AppUser> _SignInManager;
+
+        [BindProperty]
+        public string? SuccessMessage { get; set; }
 
         public LoginModel(SignInManager<AppUser> SignInManager)
         {
             _SignInManager = SignInManager;
+        }
+
+        public IActionResult OnGet(string? regSuccessMessage)
+        {
+            SuccessMessage = regSuccessMessage;
+
+            return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -33,8 +44,7 @@ namespace WebApp.Pages.Account
                 /* Email 2FA*/
                 return RedirectToPage("/Account/LoginTwoFactor", new
                 {
-                    Email = LoginViewModel.Email,
-                    RememberMe = LoginViewModel.RememberMe
+                    LoginViewModel.Email, LoginViewModel.RememberMe
                 });
 
                 /* Authenticator 2FA*/

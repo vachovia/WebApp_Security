@@ -46,4 +46,10 @@
             </div>
         </div>
     </form>
+    @if (!string.IsNullOrWhiteSpace(Model.SuccessMessage))
+    {
+        <div class="alert alert-success mt-4" role="alert">
+            @Model.SuccessMessage
+        </div>
+    }
 </div>
