@@ -42,16 +42,16 @@ namespace WebApp.Pages.Account
             if (result.RequiresTwoFactor)
             {
                 /* Email 2FA*/
-                return RedirectToPage("/Account/LoginTwoFactor", new
-                {
-                    LoginViewModel.Email, LoginViewModel.RememberMe
-                });
+                //return RedirectToPage("/Account/LoginTwoFactor", new
+                //{
+                //    LoginViewModel.Email, LoginViewModel.RememberMe
+                //});
 
                 /* Authenticator 2FA*/
-                //return RedirectToPage("/Account/AuthenticatorLoginWithTwoFactor", new
-                //{
-                //    LoginViewModel.RememberMe // new syntax: RememberMe = LoginViewModel.RememberMe
-                //});
+                return RedirectToPage("/Account/AuthenticatorLoginWithTwoFactor", new
+                {
+                    LoginViewModel.RememberMe // new syntax: RememberMe = LoginViewModel.RememberMe
+                });
             }
 
             if (result.IsLockedOut)

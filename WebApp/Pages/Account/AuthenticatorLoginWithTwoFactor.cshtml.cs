@@ -29,6 +29,8 @@ namespace WebApp.Pages.Account
         {
             if (!ModelState.IsValid) return Page();
 
+            // In cookie can be found Idsentity.TwoFactorUserId and when we submit Security Code it knows for which user
+            // This page even not protected by [Authorize] attribute so why Cookie has UserId value
             var result = await _SignInManager.TwoFactorAuthenticatorSignInAsync(AuthenticatorMFA.SecurityCode, AuthenticatorMFA.RememberMe, false);
             // Last parameter is false: Flag indicating whether the current browser should be
             // remember, suppressing all further two factor authentication prompts.
