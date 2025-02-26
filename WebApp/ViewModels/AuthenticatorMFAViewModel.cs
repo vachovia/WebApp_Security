@@ -2,12 +2,11 @@
 
 namespace WebApp.ViewModels
 {
-    public class EmailMFAViewModel
+    public class AuthenticatorMFAViewModel
     {
         [Required]
-        [Display(Name = "Security Code")]
+        [Display(Name = "Code")]
         public string SecurityCode { get; set; } = string.Empty;
-
         public bool RememberMe { get; set; }
     }
 }

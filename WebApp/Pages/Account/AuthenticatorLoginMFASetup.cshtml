@@ -1,0 +1,44 @@
+﻿@page
+@model WebApp.Pages.Account.AuthenticatorLoginMFASetupModel
+@{
+}
+
+<h3>Step: 1</h3>
+<p>
+    Please enter the Key from your authenticator app:
+</p>
+<p>
+    @Model.SetupMFAViewModel.Key
+</p>
+<h3>Step: 2</h3>
+<br/>
+<p>
+    Please enter the Code from your authenticator app:
+</p>
+<br/>
+<div class="container border" style="padding:20px">
+    <form method="post">
+        @if (@Model.Succeeded)
+        {
+            <div class="alert alert-success">Authenticator is successfully setup.</div>
+        }
+        <div class="text-danger" asp-validation-summary="All"></div>
+        <div class="mb-3 row">
+            <div class="col-2">
+                <label asp-for="SetupMFAViewModel.SecurityCode"></label>
+            </div>
+            <div class="col-4">
+                <input type="text" asp-for="SetupMFAViewModel.SecurityCode" class="form-control" />
+                <span class="text-danger" asp-validation-for="SetupMFAViewModel.SecurityCode"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <input type="hidden" asp-for="SetupMFAViewModel.Key" />
+            </div>
+            <div class="col-4 text-end">
+                <input type="submit" class="btn btn-primary" value="Verify" />
+            </div>
+        </div>
+    </form>
+</div>

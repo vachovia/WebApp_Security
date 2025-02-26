@@ -15,14 +15,14 @@ namespace WebApp.Pages.Account
         private readonly SignInManager<AppUser> _SignInManager;        
 
         [BindProperty]
-        public EmailMFA EmailMFA { get; set; }
+        public EmailMFAViewModel EmailMFA { get; set; }
 
         public LoginTwoFactorModel(UserManager<AppUser> UserManager, SignInManager<AppUser> SignInManager, IEmailService EmailService)
         {
             _UserManager = UserManager;
             _EmailService = EmailService;
             _SignInManager = SignInManager;
-            EmailMFA = new EmailMFA();
+            EmailMFA = new EmailMFAViewModel();
         }
 
         public async Task<IActionResult> OnGet(string email, bool rememberMe)

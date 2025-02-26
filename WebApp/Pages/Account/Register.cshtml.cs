@@ -41,7 +41,7 @@ namespace WebApp.Pages.Account
                 UserName = RegisterViewModel.Email,
                 Department = RegisterViewModel.Department,
                 Position = RegisterViewModel.Position,
-                // TwoFactorEnabled = true // If two Factor enabled then from Login page it will navigate to LoginTwoFactor
+                TwoFactorEnabled = true // If two Factor enabled then from Login page it will navigate to LoginTwoFactor
             };
 
             var userClaims = new List<Claim>()
@@ -57,7 +57,7 @@ namespace WebApp.Pages.Account
             {
                 await _UserManager.AddClaimsAsync(user, userClaims);
 
-                await _UserManager.AddToRoleAsync(user, SD.EmployeeRole);
+                await _UserManager.AddToRolesAsync(user, new List<string> { SD.EmployeeRole });
 
                 /* adjust Program.cs and add AddDefaultTokenProviders() to have token */
                 var confirmationToken = await _UserManager.GenerateEmailConfirmationTokenAsync(user);
