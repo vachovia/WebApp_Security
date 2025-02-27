@@ -5,17 +5,16 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using QRCoder;
 using WebApp.Data;
 using WebApp.ViewModels;
+using static QRCoder.PayloadGenerator;
 
 namespace WebApp.Pages.Account
 {
-    [Authorize]
     public class AuthenticatorLoginMFASetupModel : PageModel
     {
         [BindProperty]
-        public SetupMFAViewModel SetupMFAViewModel { get; set; }
-
+        public string? Message { get; set; } = string.Empty;
         [BindProperty]
-        public bool Succeeded { get; set; }
+        public SetupMFAViewModel SetupMFAViewModel { get; set; }
 
         private readonly UserManager<AppUser> _UserManager;
 
@@ -25,12 +24,13 @@ namespace WebApp.Pages.Account
             SetupMFAViewModel = new SetupMFAViewModel();
         }
 
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(string email, string message)
         {
             // To enable MFA we need to make False TwoFactorAuth in AspNetUser table cell
-            var user = await _UserManager.GetUserAsync(User);
+            // var user = await _UserManager.GetUserAsync(User);
+            var user = await _UserManager.FindByEmailAsync(email);
 
-            Succeeded = false;
+            Message = message;
 
             if (user != null)
             {
@@ -39,6 +39,7 @@ namespace WebApp.Pages.Account
                 var key = await _UserManager.GetAuthenticatorKeyAsync(user);
                 // This method inserts key into UserTokens table
 
+                SetupMFAViewModel.Email = email;
                 SetupMFAViewModel.Key = key ?? string.Empty;
                 SetupMFAViewModel.QRCodeBytes = GenerateQRCodeBytes("WebApp", SetupMFAViewModel.Key, user.Email ?? string.Empty);
             }
@@ -48,7 +49,8 @@ namespace WebApp.Pages.Account
         {
             if (!ModelState.IsValid) { return Page(); }
 
-            var user = await _UserManager.GetUserAsync(User);
+            // var user = await _UserManager.GetUserAsync(User);
+            var user = await _UserManager.FindByEmailAsync(SetupMFAViewModel.Email ?? string.Empty);
 
             if (user != null)
             {
@@ -58,11 +60,14 @@ namespace WebApp.Pages.Account
 
                 if (result)
                 {
-                    Succeeded = true;
-
                     await _UserManager.SetTwoFactorEnabledAsync(user, true);
                     // Since it is enabled from Login page you
-                    // have to navigate to confirm 2FA from Email
+                    // have to navigate to confirm 2FA from Email or AuthFA
+
+                    return RedirectToPage("/Account/Login", new
+                    {
+                        regSuccessMessage = "Authenticator is successfully setup."
+                    });
                 }                
             }
             else

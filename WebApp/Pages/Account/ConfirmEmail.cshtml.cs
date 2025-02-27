@@ -26,9 +26,14 @@ namespace WebApp.Pages.Account
 
                 if (result.Succeeded)
                 {
-                    Message = "Email address is successfully confirmed, you can now try to login.";
+                    string Email = user.Email ?? string.Empty;
 
-                    return Page();
+                    Message = "Email address is successfully confirmed, please setup Authenticator App to Login.";
+
+                    return RedirectToPage("/Account/AuthenticatorLoginMFASetup", new
+                    {
+                        Email, Message
+                    });
                 }
             }
 
