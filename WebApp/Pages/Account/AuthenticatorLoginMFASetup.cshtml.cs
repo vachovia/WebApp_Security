@@ -59,7 +59,7 @@ namespace WebApp.Pages.Account
 
                 if (result)
                 {
-                    /* This line is not needed because activated from Register page */
+                    /* This line is not needed because set true on Register page */
                     await _UserManager.SetTwoFactorEnabledAsync(user, true);
 
                     return RedirectToPage("/Account/Login", new
