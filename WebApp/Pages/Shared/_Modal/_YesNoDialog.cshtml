@@ -1,16 +1,14 @@
-﻿<div id="yesNoDialog" class="modal fade always-on-top" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
+﻿<div id="yesNoDialog" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <h5 class="modal-title">Bootstrap Modal title</h5>
+                <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body montserrat-regular-40pt-h1 text-center pt-5 pb-2">
-            </div>
-            <div class="text-center pb-4">
-                <button id="dialogYes" type="button" class="btn oebtn-green-primary waves-effect waves-light btn-normal-size">"Yes"</button>
-                <button id="dialogNo" type="button" class="btn oebtn-green-secondary waves-effect waves-light btn-normal-size">"No"</button>
+            <div class="modal-body text-center p-4"></div>
+            <div class="modal-footer">
+                <button id="dialogYes" type="button" class="btn btn-primary">Yes</button>
+                <button id="dialogNo" type="button" class="btn btn-outline-secondary">No</button>
             </div>
         </div>
     </div>
@@ -19,20 +17,37 @@
 <script type="text/javascript">
 
     var modalYesNo = function (message, yesCallback, noCallback) {
+
         $("#yesNoDialog.modal .modal-body").text(message);
-        $("#dialogYes").off("click");
-        $("#dialogNo").off("click");
+
+        $("#dialogYes").off("click"); $("#dialogNo").off("click");
+
         $("#dialogYes").on("click", function () {
-            $("#yesNoDialog").modal('hide');
-            yesCallback();
+            hideYesNoDlg();
+            if (yesCallback != null) {
+                yesCallback();
+            }
         });
+
         $("#dialogNo").on("click", function () {
-            $("#yesNoDialog").modal('hide');
+            hideYesNoDlg();
             if (noCallback != null) {
                 noCallback();
             }
         });
-        $("#yesNoDialog").modal({ backdrop: 'static', keyboard: false }, 'show');
+
+        const yesNoDialog = new bootstrap.Modal("#yesNoDialog", {
+            backdrop: 'static',
+            keyboard: false
+        });
+
+        yesNoDialog.show();
+
+        $("#yesNoDialog").removeAttr("aria-hidden");
+    }
+
+    function hideYesNoDlg(){
+        $("#yesNoDialog").modal('hide');
     }
 
 </script>

@@ -1,35 +1,42 @@
-﻿<script type="text/javascript">
+﻿<div id="bootBoxOkBody" class="text-center mb-0 p-4">
+    
+</div>
 
-    var modalOk = function ({ title, message, okCallback, static = false, cancelCallback = null }) {
+<script type="text/javascript">
 
-        const msgDiv = `<div id="okDialog" class="text-center mb-0 p-4">${message || ''}</div>`;
+    const msgBody = document.getElementById("bootBoxOkBody");
 
+    var bootBoxOk = function ({ title, message, static = false, okCallback = null , cancelCallback = null }) {
+        
         const buttons = [{
             label: 'OK',
             className: "btn-primary",
             callback: okCallback ? () => okCallback() : () => { }
         }];
 
+        msgBody.innerHTML = message;
+
         if (cancelCallback) {
             buttons.push({
                 label: 'Cancel',
                 className: "btn-secondary",
-                callback: () => { }
+                callback: cancelCallback ? () => cancelCallback : () => { }
             });
         }
 
         const dialog = bootbox.dialog({
+            show: false,
             title: title || 'Title',
-            message: msgDiv,
+            message: msgBody,
             centerVertical: true,
             closeButton: true,
             backdrop: static ? true : 'static',
             buttons: buttons
         });
-    }
 
-    var hideModalOk = function () {
-        dialog.modal('hide');
+        dialog.removeAttr("aria-hidden");
+
+        return dialog;
     }
 
 </script>

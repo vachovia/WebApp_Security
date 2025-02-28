@@ -7,40 +7,33 @@
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Please click to <a href="/Account/Register">Register</a>.</p>
-    <div>
-        <button id="bootBoxDlg" type="button" class="btn btn-primary">Bootbox</button>
+    <div class="d-flex justify-content-center align-items-center">
+        <button id="indexBootBoxDlg" type="button" class="btn btn-primary">Bootbox</button>
+        <button id="indexBootstrapBoxDlg" type="button" class="btn btn-secondary ms-2" data-toggle="modal">Bootstrap</button>
     </div>
 </div>
 
-@* <partial name="_Modal/_BootBoxDialog" /> *@
+<partial name="_Modal/_YesNoDialog" />
+<partial name="_Modal/_BootBoxDialog" />
 
 @section Scripts
 {
     <script type="text/javascript">
-        $('#bootBoxDlg').on('click', function (event) {
-            const timeout = 5000;
-            const msg = 'Bootbox.js: Dialog Example';
-            const msgHtml = `<p class="text-center mb-0 p-4">${msg}</p>`;
-            const dialog = bootbox.dialog({
-                title: 'TItle',
-                message: msgHtml,
-                centerVertical: true,
-                closeButton: true,
-                backdrop: true, // 'static'
-                buttons:[
-                    {
-                        label : 'OK',
-                        className: "btn-primary",
-                        callback : () => {}
-                    },
-                    {
-                        label : 'Cancel',
-                        className: "btn-secondary",
-                        callback : () => {}
-                    }
-                ]
+        const title = 'Sample Dialog Title';
+        const message = 'Bootbox.js: Dialog Example';
+
+        $('#indexBootBoxDlg').on('click', function (event) {
+            const dialog = bootBoxOk({
+                title, message
             });
-            setTimeout(() => { dialog.modal('hide'); }, timeout);
+            dialog.modal('show');
+            setTimeout(
+                () => dialog.modal('hide'),
+            5000);
+        });
+
+        $('#indexBootstrapBoxDlg').on('click', function (event) {
+            modalYesNo(message);
         });
     </script>
 }
