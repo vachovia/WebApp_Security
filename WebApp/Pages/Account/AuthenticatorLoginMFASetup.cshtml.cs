@@ -26,7 +26,6 @@ namespace WebApp.Pages.Account
 
         public async Task OnGetAsync(string email, string message)
         {
-            // To enable MFA we need to make False TwoFactorAuth in AspNetUser table cell
             // var user = await _UserManager.GetUserAsync(User);
             var user = await _UserManager.FindByEmailAsync(email);
 
@@ -60,9 +59,8 @@ namespace WebApp.Pages.Account
 
                 if (result)
                 {
+                    /* This line is not needed because activated from Register page */
                     await _UserManager.SetTwoFactorEnabledAsync(user, true);
-                    // Since it is enabled from Login page you
-                    // have to navigate to confirm 2FA from Email or AuthFA
 
                     return RedirectToPage("/Account/Login", new
                     {

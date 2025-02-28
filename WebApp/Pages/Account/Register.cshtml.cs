@@ -41,8 +41,10 @@ namespace WebApp.Pages.Account
                 UserName = RegisterViewModel.Email,
                 Department = RegisterViewModel.Department,
                 Position = RegisterViewModel.Position,
-                // TwoFactorEnabled = true // If two Factor for Email is enabled then from Login page it will navigate to LoginTwoFactor
+                TwoFactorEnabled = true
             };
+            // If TwoFactorEnabled = true means two Factor enabled then from Login page
+            // it will navigate to LoginTwoFactor or AuthenticatorLoginWithTwoFactor page
 
             var userClaims = new List<Claim>()
             {
