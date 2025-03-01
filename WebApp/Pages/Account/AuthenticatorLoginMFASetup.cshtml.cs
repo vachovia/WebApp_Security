@@ -60,11 +60,14 @@ namespace WebApp.Pages.Account
                 if (result)
                 {
                     /* This line is not needed because set true on Register page */
-                    await _UserManager.SetTwoFactorEnabledAsync(user, true);
+
+                    // await _UserManager.SetTwoFactorEnabledAsync(user, true);
+
+                    /*************************************************************/
 
                     return RedirectToPage("/Account/Login", new
                     {
-                        regSuccessMessage = "Authenticator is successfully setup."
+                        regSuccessMessage = "Authenticator is successfully setup, ypu can Login now."
                     });
                 }                
             }
